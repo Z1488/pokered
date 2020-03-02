@@ -872,7 +872,7 @@ FaintEnemyPokemon:
 	ld a, SFX_FAINT_FALL
 	call PlaySoundWaitForCurrent
 .sfxwait
-	ld a, [wChannelSoundIDs + Ch4]
+	ld a, [wChannelSoundIDs + Ch5]
 	cp SFX_FAINT_FALL
 	jr z, .sfxwait
 	ld a, SFX_FAINT_THUD
@@ -956,7 +956,7 @@ EndLowHealthAlarm:
 ; the low health alarm and prevents it from reactivating until the next battle.
 	xor a
 	ld [wLowHealthAlarm], a ; turn off low health alarm
-	ld [wChannelSoundIDs + Ch4], a
+	ld [wChannelSoundIDs + Ch5], a
 	inc a
 	ld [wLowHealthAlarmDisabled], a ; prevent it from reactivating
 	ret
@@ -1954,7 +1954,7 @@ DrawPlayerHUDAndHPBar:
 	ld [hl], $0
 	ret z
 	xor a
-	ld [wChannelSoundIDs + Ch4], a
+	ld [wChannelSoundIDs + Ch5], a
 	ret
 .setLowHealthAlarm
 	ld hl, wLowHealthAlarm
@@ -3371,9 +3371,9 @@ IsGhostBattle:
 	dec a
 	ret nz
 	ld a, [wCurMap]
-	cp POKEMONTOWER_1
+	cp POKEMON_TOWER_1F
 	jr c, .next
-	cp LAVENDER_HOUSE_1
+	cp MR_FUJIS_HOUSE
 	jr nc, .next
 	ld b, SILPH_SCOPE
 	call IsItemInBag
@@ -6867,7 +6867,7 @@ InitBattleCommon:
 	res 1, [hl]
 	callab InitBattleVariables
 	ld a, [wEnemyMonSpecies2]
-	sub 200
+	sub OPP_ID_OFFSET
 	jp c, InitWildBattle
 	ld [wTrainerClass], a
 	call GetTrainerInformation
